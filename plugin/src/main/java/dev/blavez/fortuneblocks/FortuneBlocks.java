@@ -4,6 +4,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import dev.blavez.fortuneblocks.di.PluginModule;
 import dev.blavez.fortuneblocks.listener.BlockDropListener;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -16,5 +17,7 @@ public class FortuneBlocks extends JavaPlugin {
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(injector.getInstance(BlockDropListener.class), this);
 
+        int pluginId = 31215;
+        new Metrics(this, pluginId);
     }
 }

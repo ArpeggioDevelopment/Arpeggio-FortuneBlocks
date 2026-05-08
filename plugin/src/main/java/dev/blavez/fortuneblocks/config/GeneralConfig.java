@@ -7,7 +7,7 @@ import java.util.*;
 
 public class GeneralConfig extends OkaeriConfig {
 
-    private final Map<Material, ToolConfig> tools = new EnumMap<>(Material.class);
+    private Map<Material, ToolConfig> tools = new EnumMap<>(Material.class);
 
     {
         tools.put(
