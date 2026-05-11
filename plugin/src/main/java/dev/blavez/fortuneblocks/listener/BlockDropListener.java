@@ -46,7 +46,17 @@ public class BlockDropListener implements Listener {
 
         for (Item itemEntity : event.getItems()) {
             ItemStack item = itemEntity.getItemStack();
-            item.setAmount(item.getAmount() * multiplier);
+            int amount = item.getAmount() * multiplier;
+
+            while (amount > 0) {
+                int stackSize = Math.min(amount, item.getMaxStackSize());
+                ItemStack drop = item.clone();
+                drop.setAmount(stackSize);
+                itemEntity.getWorld().dropItemNaturally(itemEntity.getLocation(), drop);
+                amount -= stackSize;
+            }
+
+            itemEntity.remove();
         }
     }
 
