@@ -9,7 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class BlockDropListener implements Listener {
 
@@ -41,11 +41,8 @@ public class BlockDropListener implements Listener {
 
         int level = tool.getEnchantmentLevel(Enchantment.FORTUNE);
 
-        int multiplier = fastRandom(level + 1) + 1;
-
-        if (multiplier == 1) {
-            return;
-        }
+        int multiplier = rollFortuneMultiplier(level);
+        if (multiplier <= 1) return;
 
         for (Item itemEntity : event.getItems()) {
             ItemStack item = itemEntity.getItemStack();
@@ -53,9 +50,7 @@ public class BlockDropListener implements Listener {
         }
     }
 
-    private final AtomicInteger SEED = new AtomicInteger();
-
-    private int fastRandom(int bound) {
-        return (SEED.incrementAndGet() & Integer.MAX_VALUE) % bound;
+    private int rollFortuneMultiplier(int bound) {
+        return ThreadLocalRandom.current().nextInt(bound + 1) + 1;
     }
 }
